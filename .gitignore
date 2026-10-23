@@ -1,0 +1,21 @@
+# Gradle / Android build output
+.gradle/
+build/
+/app/build/
+local.properties
+*.apk
+*.aab
+.idea/
+*.iml
+.DS_Store
+# Probe results and API dumps are regenerated on every run
+tools/lineup/.cache/
+# The release key lives in ~/.config/veed-tv/, never here; this is a safety net
+*.jks
+*.keystore
+release.properties
+# A screenshot of the owner's own TV launcher, used while choosing the icon
+tools/branding/concepts-compared.png
+# Icon concepts not used; their wordmarks are outlines of a font licensed for Apple devices only
+tools/branding/concept-a/
+tools/branding/concept-b/

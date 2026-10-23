@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Plain http:// is allowed: the home server is reached over the LAN or Tailscale, and some
+  channels only stream over http.
+  Let's Encrypt's roots are bundled because many stream hosts use its certificates, and Fire OS 6
+  (Android 7.1) is the oldest Android this app supports, at the edge of trusting them.
+  Fingerprints (SHA-256): X1 96:BC:EC:06...:DF:08:C6, X2 69:72:9B:8E...:CB:14:70.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="@raw/isrg_root_x1" />
+            <certificates src="@raw/isrg_root_x2" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
