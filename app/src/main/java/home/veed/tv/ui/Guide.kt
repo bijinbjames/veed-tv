@@ -19,7 +19,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -104,13 +106,18 @@ fun Guide(c: TvController) {
             }
             Spacer(Modifier.height(20.dp))
             Row(Modifier.weight(1f)) {
-                Column(Modifier.width(310.dp)) {
-                    categories.forEach { cat ->
+                // About eight and a half entries fit; the rest scroll into view as the focus
+                // reaches them, instead of being squeezed off the bottom ("Update Veed TV" too).
+                Column(Modifier.width(310.dp).verticalScroll(rememberScrollState())) {
+                    categories.forEachIndexed { i, cat ->
                         key(cat.id) {
                             CategoryItem(
                                 cat = cat,
                                 selected = cat.id == selected,
                                 requester = categoryFocus.getValue(cat.id),
+                                above = categories.getOrNull(i - 1)?.let { categoryFocus.getValue(it.id) },
+                                below = categories.getOrNull(i + 1)?.let { categoryFocus.getValue(it.id) }
+                                    ?: FocusRequester.Cancel,
                                 onFocused = { selected = cat.id },
                                 // ▶ or OK on a category jumps into its channels.
                                 onEnter = {
@@ -183,6 +190,8 @@ private fun CategoryItem(
     cat: GuideCategory,
     selected: Boolean,
     requester: FocusRequester,
+    above: FocusRequester?,
+    below: FocusRequester,
     onFocused: () -> Unit,
     onEnter: () -> Boolean,
 ) {
@@ -192,7 +201,7 @@ private fun CategoryItem(
         Modifier
             .fillMaxWidth()
             .padding(vertical = 3.dp)
-            .height(62.dp)
+            .height(56.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(
                 when {
@@ -201,6 +210,12 @@ private fun CategoryItem(
                     else -> Color.Transparent
                 },
             )
+            // Named, not searched for: the focus search skips entries scrolled out of view and
+            // would jump into the channel list instead. The last one stays put on ▼.
+            .focusProperties {
+                above?.let { up = it }
+                down = below
+            }
             .focusRequester(requester)
             .onFocusChanged {
                 focused = it.isFocused

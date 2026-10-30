@@ -214,7 +214,8 @@ class LineupRepository(private val context: Context, private val servers: List<S
         }
     }
 
-    private fun parseLineup(text: String): Lineup = json.decodeFromString(Lineup.serializer(), text)
+    private fun parseLineup(text: String): Lineup =
+        json.decodeFromString(Lineup.serializer(), text).let { l -> l.allCategories?.let { l.copy(categories = it) } ?: l }
 
     private companion object {
         const val TAG = "VeedTV"

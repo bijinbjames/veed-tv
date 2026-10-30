@@ -9,6 +9,11 @@ data class Lineup(
     /** ISO-8601 UTC time the lineup was built; newer lineups replace older ones. */
     val generated: String = "",
     val categories: List<Category> = emptyList(),
+    /**
+     * Every category, where [categories] holds only as many as apps before 0.3.1 have room for.
+     * Read once by [LineupRepository], which puts it in [categories].
+     */
+    val allCategories: List<Category>? = null,
     /** Sorted by [Channel.number]. */
     val channels: List<Channel> = emptyList(),
     /** Null for veed's tested list; [IptvOrg.SOURCE] for the untested fallback this app makes itself. */

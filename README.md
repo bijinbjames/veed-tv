@@ -2,8 +2,8 @@
 
 A live-TV app for Android TV, Google TV and Fire TV, built to be driven entirely by a TV remote
 by people who never set it up. It plays free live channels listed by
-[iptv-org/iptv](https://github.com/iptv-org/iptv): about 400 of them in the bundled lineup, in six
-categories (Malayalam, Movies, Discovery, Music, English News, Sports).
+[iptv-org/iptv](https://github.com/iptv-org/iptv): about 480 of them in the bundled lineup, in nine
+categories (Malayalam, Movies, Discovery, Music, English News, Sports, Comedy, Kids, English Shows).
 
 Kotlin, Jetpack Compose and Media3 ExoPlayer; about 2.5 MB. Runs on Android 7.1 and newer
 (`minSdk 25`): Android TV, Google TV, and Fire TV with Fire OS 6, 7 or 8. Amazon's Vega OS
@@ -54,6 +54,7 @@ The server's list wins again the moment it answers.
   "version": 1,
   "generated": "2026-10-20T13:02:04+00:00",
   "categories": [{ "id": "malayalam", "name": "Malayalam", "language": "mal" }],
+  "allCategories": [{ "id": "malayalam", "name": "Malayalam", "language": "mal" }],
   "channels": [{
     "number": 1, "id": "Asianet.in", "name": "Asianet", "category": "malayalam",
     "logo": "https://…",
@@ -62,7 +63,9 @@ The server's list wins again the moment it answers.
 }
 ```
 
-Channel ids are iptv-org's; `language` is ISO 639-2. Channels are sorted by `number`, and
+Channel ids are iptv-org's; `language` is ISO 639-2. `allCategories` lists every category;
+`categories` only the first six, because versions before 0.3.1 have room for no more (their
+category column does not scroll) and read only that field. Channels are sorted by `number`, and
 `streams` best first. `epg.json` is `{"channels": {"<channel id>": [[start, stop, "title"], …]}}`
 in epoch seconds, sorted by start. `veed-tv.json` announces a release:
 `{"versionCode": 3, "versionName": "0.3.0", "sha256": "<hex>", "size": 2545540, "notes": "…"}`.
@@ -153,6 +156,9 @@ OK can't close the app or click something by accident.
 | 450–649 | Music (Vevo, MTV, XITE…) |
 | 650–699 | English News |
 | 700–749 | Sports |
+| 750–799 | Comedy (Comedy Central, Mr Bean, Just for Laughs Gags, sitcoms…) |
+| 800–899 | Kids (Nickelodeon, Nick Jr., SpongeBob, PBS Kids, Peppa Pig…) |
+| 900–999 | English Shows (VH1, MTV, Top Gear, Survivor, game shows, NCIS…) |
 
 Favourites and the last channel are remembered by number, so they survive the server swapping
 one feed of a channel for another.

@@ -35,8 +35,8 @@ android {
         // oldest TV a friend runs it on; below that Compose is too slow on the hardware anyway.
         minSdk = 25
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = 4
+        versionName = "0.3.1"
         // Where the nightly-tested lineup.json, epg.json and updates come from (veedtv.serverUrls,
         // above), the last one that worked tried first. When none answers, the app keeps using the
         // last copies it downloaded, and after a day refreshes links from iptv-org itself.
